@@ -1,5 +1,6 @@
 /*.log
 /target
+*.iml
 /*-init.clj
 /resources/public/js/compiled
 out
