@@ -1,6 +1,7 @@
 (ns sample-dirac-re-frame.core
     (:require [reagent.core :as reagent]
               [re-frame.core :as re-frame]
+              [re-frisk.core :refer [enable-re-frisk!]]
               [sample-dirac-re-frame.events]
               [sample-dirac-re-frame.subs]
               [sample-dirac-re-frame.views :as views]
@@ -10,7 +11,7 @@
 (defn dev-setup []
   (when config/debug?
     (enable-console-print!)
-    (println "dev mode")))
+    (enable-re-frisk!)))
 
 (defn mount-root []
   (re-frame/clear-subscription-cache!)
@@ -18,6 +19,6 @@
                   (.getElementById js/document "app")))
 
 (defn ^:export init []
-  (re-frame/dispatch-sync [:initialize-db])
   (dev-setup)
+  (re-frame/dispatch-sync [:initialize-db])
   (mount-root))
