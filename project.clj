@@ -6,10 +6,18 @@
                  [reagent "0.6.1"]
                  [re-frame "0.9.2"]]
   :plugins [[lein-cljsbuild "1.1.6-SNAPSHOT"]
+            [lein-pdo "0.1.1"]
+            [lein-shell "0.5.0"]
             [lein-ancient "0.6.10"]]
   :min-lein-version "2.5.3"
   :source-paths ["src/clj"]
-  :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
+  :clean-targets ^{:protect false} ["resources/public/js/compiled"
+                                    "target"
+                                    "docs/css"
+                                    "docs/img"
+                                    "docs/js"
+                                    "docs/favicon.ico"
+                                    "docs/index.html"]
   :figwheel {:css-dirs ["resources/public/css"]
              :server-port 3456
              :repl false}
@@ -39,4 +47,11 @@
                                    :output-to "resources/public/js/compiled/app.js"
                                    :optimizations :advanced
                                    :closure-defines {goog.DEBUG false}
-                                   :pretty-print false}}]})
+                                   :pretty-print false}}]}
+  :aliases {"dist" ["do"
+                    "clean,"
+                    "cljsbuild" "once" "min,"
+                    "shell" "./release.sh"]
+            "versions" ["ancient" "upgrade" ":all" ":check-clojure" ":allow-all"]
+            "reload" ["pdo"
+                      "figwheel" "dev,"]})
