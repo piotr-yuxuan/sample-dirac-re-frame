@@ -2,6 +2,7 @@
     (:require [reagent.core :as reagent]
               [re-frame.core :as re-frame]
               [re-frisk.core :refer [enable-re-frisk!]]
+              [sample-dirac-re-frame.effects]
               [sample-dirac-re-frame.events]
               [sample-dirac-re-frame.subs]
               [sample-dirac-re-frame.views :as views]
