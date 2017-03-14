@@ -1,6 +1,11 @@
 # Sample project with re-frame and Dirac
 
-A [re-frame](https://github.com/Day8/re-frame) application designed to ... well, that part is up to you.
+A [re-frame](https://github.com/Day8/re-frame) application designed to… well, that part is up to you.
+
+This sample project aims at showing a bit what how you can use reactive programming, functional programming and immutable data in a single-paged web application. It's much more advised to read the following page:
+
+- [What is functionnal programming about?](http://blog.jenkster.com/2015/12/what-is-functional-programming.html)
+- Just the front page of [re-frame](https://github.com/Day8/re-frame)
 
 ## Distribution
 
