@@ -10,7 +10,9 @@
   :min-lein-version "2.5.3"
   :source-paths ["src/clj"]
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
-  :figwheel {:css-dirs ["resources/public/css"]}
+  :figwheel {:css-dirs ["resources/public/css"]
+             :server-port 3456
+             :repl false}
   :profiles {:dev
              {:dependencies [[binaryage/devtools "0.9.2"]]
               :plugins [[lein-figwheel "0.5.9"]]}}
