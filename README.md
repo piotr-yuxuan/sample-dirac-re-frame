@@ -1,26 +1,61 @@
-# sample-dirac-re-frame
+# Sample project with re-frame and Dirac
 
 A [re-frame](https://github.com/Day8/re-frame) application designed to ... well, that part is up to you.
 
-## Development Mode
-
-### Run application:
+## Distribution
 
 ```
+lein dist
+```
+
+Distributable files with be placed within `docs/` where GitHub pages look them for.
+
+## Documentation
+
+Additional documentation will be written under `docs/doc` if ever.
+
+## Development
+
+Technically, this project is a [re-frame](https://github.com/Day8/re-frame) rich single-paged application built upon [React](https://facebook.github.io/react/) — wrapped into [Reagent](http://reagent-project.github.io/). I use [Figwheel](https://github.com/bhauman/lein-figwheel), [Dirac](https://github.com/binaryage/dirac) for development so I can enjoy [live-coding](https://en.wikipedia.org/wiki/Live_coding). For the time being, this project is distributed within a [GitHub page](https://pages.github.com/) : [https://piotr-yuxuan.github.io/sample-dirac-re-frame/](https://piotr-yuxuan.github.io/sample-dirac-re-frame/)
+
+### Update third party code
+
+``` bash
+lein ancient upgrade :all :check-clojure :allow-all
+```
+
+Required anytime Chrome Canary (hence Dirac) get new version numbers.
+
+### Clean project state
+
+``` bash
 lein clean
-lein figwheel dev
 ```
 
-Figwheel will automatically push cljs changes to the browser.
+### Automatically reload hot code and css
 
-Wait a bit, then browse to [http://localhost:3449](http://localhost:3449).
-
-## Production Build
-
-
-To compile clojurescript to javascript:
-
+``` bash
+lein reload
 ```
-lein clean
-lein cljsbuild once min
+
+Local developement endpoint is accessible via [http://localhost:3456](http://localhost:3456).
+
+### Dirac
+
+Start Dirac agent in a Java REPL
+
+``` bash
+lein repl
 ```
+
+You may prefer to launch latest Chrome Canary with a dedicated user profile:
+
+``` bash
+cd ~ # anywhere else
+/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary \
+  --remote-debugging-port=9222 \
+  --no-first-run \
+  --user-data-dir=.chrome-user-data-dir
+```
+
+Install [Dirac Chrome extension](https://chrome.google.com/webstore/detail/dirac-devtools/kbkdngfljkchidcjpnfcgcokkbhlkogi) ifneedsbe.
