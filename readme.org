@@ -1,0 +1,88 @@
+#+TITLE: Dirac setup with IntelliJ and Emacs
+
+A [[https://github.com/Day8/re-frame][re-frame]] application designed to... well, that part is up to you.
+
+Technically, this project is a [[https://github.com/Day8/re-frame][re-frame]] rich single-paged application
+built upon [[https://facebook.github.io/react/][React]] (wrapped into [[http://reagent-project.github.io/][Reagent]]). I use [[https://github.com/bhauman/lein-figwheel][Figwheel]], [[https://github.com/binaryage/dirac][Dirac]] for
+development so I can enjoy [[https://en.wikipedia.org/wiki/Live_coding][live-coding]]. A demo can be accessed here:
+[[https://piotr-yuxuan.github.io/sample-dirac-re-frame/]]
+
+This project is a sample configuration for Emacs and IntelliJ.
+
+* Summary                                                          :TOC_2_gh:
+- [[#emacs-standalone][Emacs standalone]]
+- [[#emacs-hosts-figwheel-and-intellij-hosts-dirac][Emacs hosts Figwheel and IntelliJ hosts Dirac]]
+- [[#intellij-standalone][IntelliJ standalone]]
+
+* Emacs standalone
+
+I use [[https://github.com/clojure-emacs/cider][Cider]], the Clojure Interactive Development Environment that
+Rocks for Emacs. Sure you can get your way with other tools like
+[[https://github.com/Unrepl/spiral][Spiral]].
+
+Dirac is implemented as a Piggieback middleware fork, so you cannot
+run both. Unfortunately Cider needs Piggieback so currently is
+incompatible with Dirac. However, you don't actually need Dirac in
+Emacs because Cider offers a REPL which can connect to a browser or
+some more exotic environmeents like Node or Nashorn.
+
+For this project specifically, Cider needs to use leiningen with
+profile ~emacs~. It can be achieved that way:
+
+#+BEGIN_SRC elisp
+  (use-package cider
+    :custom ((cider-lein-global-options "with-profile +emacs")))
+#+END_SRC
+
+Then, all you need to do is launch Cider for cljs:
+
+#+BEGIN_SRC elisp
+  (cider-jack-in-clojurescript)
+#+END_SRC
+
+Now you can open a browser and go to [[http://localhost:3449][localhost:3449]].
+
+More documentation on Cider [[https://cider.readthedocs.io/en/latest/up_and_running/#browser-connected-clojurescript-repl][here]]. More on Dirac [[https://github.com/binaryage/dirac/blob/1035a3afb9b969a835f59f9dbadb0ad4da812a34/docs/installation.md][there]].
+* Emacs hosts Figwheel and IntelliJ hosts Dirac
+
+Just launch Cider like the previous section, then define a new local
+Clojure REPL in IntelliJ with profile ~intelli-j-dirac~ then start
+it. Once it's ready, eval ~(dirac! :join)~ and launch Chrome Canary
+with [[https://chrome.google.com/webstore/detail/dirac-devtools/kbkdngfljkchidcjpnfcgcokkbhlkogi][Dirac extension]] installed.
+
+You may prefer to launch latest Chrome Canary with a dedicated user
+profile, for example:
+
+#+BEGIN_SRC shell
+  /Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary \
+    --remote-debugging-port=9222 \
+    --no-first-run \
+    --user-data-dir=.chrome-user-data-dir
+#+END_SRC
+
+Click on Dirac icon on the top right-hand corner.
+
+*** Communication between Emacs, IntelliJ and Dirac REPL
+
+IntelliJ and Dirac shares the same cljs runtime and both can access
+Cider vars. However Cider can't access Dirac or IntelliJ runtime.
+
+* IntelliJ standalone
+
+Like in the previous section, define a REPL. Start it, then start
+figwheel, and finally join Dirac runtime.
+
+#+BEGIN_SRC clojure
+  (figwheel-sidecar.repl-api/start-figwheel!)
+  (dirac! :join)
+#+END_SRC
+
+*** Update third party code
+
+Anytime Dirac the-Chrome-Canary-extension gets bumped to a new
+version, you need to upgrate Dirac dependency version accordingly. A
+leiningen plugin can help you do so.
+
+#+BEGIN_SRC shell
+  lein ancient upgrade :all :check-clojure :allow-all
+#+END_SRC

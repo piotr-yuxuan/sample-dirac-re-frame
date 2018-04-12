@@ -9,12 +9,13 @@
 
 (re-frame/reg-event-fx
   :increment-counter
-  (fn [{:keys [db]} [sub-kw new-value]]
+  (fn [{:keys [db]} [_sub-keyword new-value]]
     {:db (assoc db :counter new-value)
      :dispatch [:change-background-color]}))
 
 (re-frame/reg-event-fx
   :change-background-color
   (fn [{:keys [db]} _]
-    {:db (assoc db :background-color (rand-nth [:red :green :blue :coral :cyan :brown]))
-     :println "Background color changed"}))
+    (let [new-color (rand-nth [:red :green :blue :coral :cyan :brown])]
+      {:db (assoc db :background-color new-color)
+       :println (str "Background color changed to " new-color)})))
